@@ -7,12 +7,12 @@
 
 <style>
 body {
-    font-family: Arial;
     margin:0;
+    font-family: 'Arial', sans-serif;
     background:#f8fafc;
 }
 
-/* HERO VIDEO */
+/* HERO */
 .hero {
     position:relative;
     height:300px;
@@ -20,196 +20,223 @@ body {
 }
 .hero video {
     width:100%;
+    height:100%;
     object-fit:cover;
 }
 .hero-text {
     position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
+    bottom:20px;
+    left:20px;
     color:white;
-    text-align:center;
-    background:rgba(0,0,0,0.5);
-    padding:20px;
+}
+.hero-text h1 {
+    margin:0;
+    font-size:28px;
+}
+.hero-text p {
+    margin:0;
+}
+
+/* CAROUSEL */
+.carousel {
+    overflow:hidden;
+    background:#000;
+    padding:10px 0;
+}
+.carousel-track {
+    display:flex;
+    animation:scroll 20s linear infinite;
+}
+.carousel img {
+    width:220px;
+    height:150px;
+    object-fit:cover;
+    margin-right:10px;
     border-radius:10px;
 }
 
-/* PRODUTOS */
+@keyframes scroll {
+    0% {transform:translateX(0);}
+    100% {transform:translateX(-50%);}
+}
+
+/* PRODUCTS */
 .container {
     padding:20px;
 }
-
-.product {
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    margin-bottom:20px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+.grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+    gap:20px;
 }
-
-.product img {
-    width:100%;
+.card {
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+.card:hover {
+    transform:translateY(-5px);
+}
+.img-box {
     height:200px;
+    overflow:hidden;
+}
+.img-box img {
+    width:100%;
+    height:100%;
     object-fit:cover;
 }
-
-.product-content {
+.card-content {
     padding:15px;
 }
-
 .qty {
     width:60px;
-}
-
-button {
-    background:#16a34a;
-    color:white;
-    padding:10px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
 }
 
 /* CART */
 .cart {
     background:white;
+    margin:20px;
     padding:20px;
-    border-radius:12px;
+    border-radius:15px;
 }
 
-input {
+/* BUTTON */
+.btn {
+    background:#16a34a;
+    color:white;
+    padding:12px;
     width:100%;
-    padding:10px;
-    margin-top:10px;
-}
-
-.whatsapp {
-    background:#25D366;
-    width:100%;
-    margin-top:15px;
+    border:none;
+    border-radius:10px;
     font-size:16px;
+}
+
+/* FLOAT BUTTON */
+.float-btn {
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#25D366;
+    color:white;
+    padding:15px;
+    border-radius:50%;
+    font-size:20px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- VIDEO HERO -->
+<!-- HERO -->
 <div class="hero">
     <video autoplay muted loop>
         <source src="img/granja.mp4" type="video/mp4">
     </video>
-
     <div class="hero-text">
         <h1>🥚 Econido</h1>
-        <p>De nuestra granja a tu mesa</p>
+        <p>De la granja a tu mesa</p>
     </div>
 </div>
 
-<div class="container">
+<!-- CAROUSEL -->
+<div class="carousel">
+    <div class="carousel-track">
+        <img src="img/flyer1.jpg">
+        <img src="img/flyer2.jpg">
+        <img src="img/flyer3.jpg">
+        <img src="img/flyer4.jpg">
+        <img src="img/flyer5.jpg">
+        <img src="img/flyer6.jpg">
+        <img src="img/flyer7.jpg">
+        <img src="img/flyer1.jpg">
+        <img src="img/flyer2.jpg">
+        <img src="img/flyer3.jpg">
+        <img src="img/flyer4.jpg">
+        <img src="img/flyer5.jpg">
+        <img src="img/flyer6.jpg">
+        <img src="img/flyer7.jpg">
+        <img src="img/flyer1.jpg">
+        <img src="img/flyer2.jpg">
+    </div>
+</div>
 
+<!-- PRODUCTS -->
+<div class="container">
 <h2>🌿 Productos</h2>
 
-<div class="product">
-    <img src="img/huevos.jpg">
-    <div class="product-content">
-        <h3>Huevos (30 piezas)</h3>
-        <p>$240 MXN</p>
-        <input type="number" id="h30" class="qty" placeholder="0">
-    </div>
+<div class="grid">
+
+<div class="card">
+<div class="img-box"><img src="img/huevos.jpg"></div>
+<div class="card-content">
+<h3>Huevos 30</h3>
+<p>$120 MXN</p>
+<input type="number" id="h30" class="qty">
+</div>
 </div>
 
-<div class="product">
-    <img src="img/miel.jpg">
-    <div class="product-content">
-        <h3>Miel Natural 1 Pote Nuestras Abejitas </h3>
-        <p>$250 MXN</p>
-        <input type="number" id="miel" class="qty" placeholder="0">
-    </div>
+<div class="card">
+<div class="img-box"><img src="img/miel.jpg"></div>
+<div class="card-content">
+<h3>Miel Natural</h3>
+<p>$150 MXN</p>
+<input type="number" id="miel" class="qty">
+</div>
 </div>
 
-<div class="product">
-    <img src="img/cebollin1.jpg">
-    <div class="product-content">
-        <h3>Cebollín fresco 100 g </h3>
-        <p>$50 MXN</p>
-        <input type="number" id="ceb" class="qty" placeholder="0">
-    </div>
+<div class="card">
+<div class="img-box"><img src="img/cebollin1.jpg"></div>
+<div class="card-content">
+<h3>Cebollín</h3>
+<p>$50 MXN</p>
+<input type="number" id="ceb" class="qty">
 </div>
-<div class="product">
-    <img src="img/cabra.jpg">
-    <div class="product-content">
-        <h3>Kefir El litro </h3>
-        <p>150 MXN</p>
-        <input type="number" id="ceb" class="qty" placeholder="0">
-    </div>
-</div>
-<div class="product">
-    <img src="img/queso.jpg">
-    <div class="product-content">
-        <h3>Queso Kefir con cebolin organico  </h3>
-        <p>150 MXN</p>
-        <input type="number" id="ceb" class="qty" placeholder="0">
-    </div>
 </div>
 
+</div>
+</div>
+
+<!-- CART -->
 <div class="cart">
-    <h2>🛒 Pedido</h2>
+<h2>🛒 Pedido</h2>
+<input type="text" id="nombre" placeholder="Nombre">
+<input type="text" id="tel" placeholder="Teléfono">
+<input type="text" id="dir" placeholder="Dirección">
 
-    <input type="text" id="nombre" placeholder="Nombre">
-    <input type="text" id="tel" placeholder="Teléfono">
-    <input type="text" id="dir" placeholder="Dirección">
-
-    <button class="whatsapp" onclick="sendOrder()">
-        📲 Finalizar pedido
-    </button>
+<button class="btn" onclick="sendOrder()">Finalizar Pedido</button>
 </div>
 
-</div>
+<!-- FLOAT -->
+<a class="float-btn" href="https://wa.me/5219982240708">💬</a>
 
 <script>
-function sendOrder() {
+function sendOrder(){
 
-let nombre = document.getElementById("nombre").value;
-let tel = document.getElementById("tel").value;
-let dir = document.getElementById("dir").value;
+let n = document.getElementById("nombre").value;
+let t = document.getElementById("tel").value;
+let d = document.getElementById("dir").value;
 
-if (!nombre || !tel || !dir) {
-    alert("Completa tus datos");
-    return;
-}
+if(!n||!t||!d){alert("Completa datos");return;}
 
-let msg = "🛒 Pedido Econido %0A%0A";
-msg += "👤 " + nombre + "%0A";
-msg += "📞 " + tel + "%0A";
-msg += "📍 " + dir + "%0A%0A";
+let msg="Pedido Econido %0A";
+msg+="Nombre:"+n+"%0A";
 
-let total = 0;
+let total=0;
 
-let h30 = document.getElementById("h30").value;
-let miel = document.getElementById("miel").value;
-let ceb = document.getElementById("ceb").value;
+let h=document.getElementById("h30").value;
+let m=document.getElementById("miel").value;
+let c=document.getElementById("ceb").value;
 
-if (h30 > 0) {
-    msg += "🥚 Huevos 30: " + h30 + "%0A";
-    total += h30 * 120;
-}
+if(h>0){msg+="Huevos:"+h+"%0A";total+=h*120;}
+if(m>0){msg+="Miel:"+m+"%0A";total+=m*150;}
+if(c>0){msg+="Cebollin:"+c+"%0A";total+=c*50;}
 
-if (miel > 0) {
-    msg += "🍯 Miel: " + miel + "%0A";
-    total += miel * 150;
-}
+msg+="Total:$"+total;
 
-if (ceb > 0) {
-    msg += "🌿 Cebollín: " + ceb + "%0A";
-    total += ceb * 50;
-}
-
-msg += "%0A💰 Total: $" + total;
-
-let url = "https://wa.me/5219982240708?text=" + msg;
-
-window.open(url, "_blank");
+window.open("https://wa.me/5219982240708?text="+msg);
 }
 </script>
 
