@@ -1,157 +1,109 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Econido - Pedido</title>
+<title>Leads → PDF</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body {
     font-family: Arial;
-    background:#f1f5f9;
-    margin:0;
-}
-header {
-    text-align:center;
-    padding:20px;
-    background:#166534;
+    background:#0f172a;
     color:white;
-}
-.container {
     padding:20px;
 }
-.product {
-    background:white;
-    padding:15px;
-    margin-bottom:15px;
-    border-radius:10px;
+textarea {
+    width:100%;
+    height:120px;
+    margin-bottom:10px;
 }
 button {
+    padding:10px 20px;
+    margin:5px;
     background:#22c55e;
-    color:white;
-    padding:10px;
     border:none;
-    border-radius:5px;
+    color:white;
     cursor:pointer;
 }
-.cart {
+table {
+    width:100%;
+    border-collapse: collapse;
     background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-top:20px;
+    color:black;
 }
-input {
-    width:100%;
-    padding:10px;
-    margin-top:10px;
+th, td {
+    border:1px solid #ccc;
+    padding:8px;
 }
-.whatsapp {
-    background:#25D366;
-    width:100%;
-    margin-top:15px;
+th {
+    background:#eee;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>🥚 Econido</h1>
-    <p>Huevos de libre pastoreo</p>
-</header>
+<h1>📊 Leads → PDF</h1>
 
-<div class="container">
+<textarea id="inputData" placeholder="Cole aqui:
+Juan Perez	9981234567	Cancún
+Maria Lopez	9987654321	Zona Hotelera"></textarea>
 
-<h2>Productos</h2>
+<button onclick="processar()">Organizar</button>
+<button onclick="gerarPDF()">📄 Gerar PDF</button>
 
-<div class="product">
-    <h3>Huevos (30 piezas)</h3>
-    <p>$120 MXN</p>
-    <input type="number" id="huevos30" placeholder="Cantidad">
-</div>
-
-<div class="product">
-    <h3>Huevos (60 piezas)</h3>
-    <p>$220 MXN</p>
-    <input type="number" id="huevos60" placeholder="Cantidad">
-</div>
-
-<div class="product">
-    <h3>Miel Natural</h3>
-    <p>$150 MXN</p>
-    <input type="number" id="miel" placeholder="Cantidad">
-</div>
-
-<div class="product">
-    <h3>Cebollín</h3>
-    <p>$50 MXN</p>
-    <input type="number" id="cebollin" placeholder="Cantidad">
-</div>
-
-<div class="cart">
-    <h2>Datos del Cliente</h2>
-
-    <input type="text" id="nombre" placeholder="Nombre completo">
-    <input type="text" id="telefono" placeholder="Teléfono">
-    <input type="text" id="direccion" placeholder="Dirección de entrega">
-
-    <button class="whatsapp" onclick="enviarPedido()">
-        📲 Enviar Pedido por WhatsApp
-    </button>
-</div>
-
+<div id="areaPDF">
+<table>
+<thead>
+<tr>
+<th>Nome</th>
+<th>Contato</th>
+<th>Endereço</th>
+</tr>
+</thead>
+<tbody id="tabela"></tbody>
+</table>
 </div>
 
 <script>
-function enviarPedido() {
+function processar() {
+    let input = document.getElementById("inputData").value.trim();
+    let linhas = input.split("\n");
+    let tbody = document.getElementById("tabela");
 
-    let nombre = document.getElementById("nombre").value;
-    let telefono = document.getElementById("telefono").value;
-    let direccion = document.getElementById("direccion").value;
+    tbody.innerHTML = "";
 
-    if (!nombre || !telefono || !direccion) {
-        alert("Por favor completa tus datos");
-        return;
-    }
+    linhas.forEach(linha => {
+        let col = linha.split(/\t|,/);
 
-    let mensaje = "🛒 *Nuevo Pedido Econido* %0A%0A";
+        if (col.length >= 3) {
+            let tr = document.createElement("tr");
 
-    mensaje += "👤 Nombre: " + nombre + "%0A";
-    mensaje += "📞 Teléfono: " + telefono + "%0A";
-    mensaje += "📍 Dirección: " + direccion + "%0A%0A";
+            tr.innerHTML = `
+                <td>${col[0]}</td>
+                <td>${col[1]}</td>
+                <td>${col[2]}</td>
+            `;
 
-    let total = 0;
+            tbody.appendChild(tr);
+        }
+    });
+}
 
-    let h30 = document.getElementById("huevos30").value;
-    let h60 = document.getElementById("huevos60").value;
-    let miel = document.getElementById("miel").value;
-    let ceb = document.getElementById("cebollin").value;
+function gerarPDF() {
+    let element = document.getElementById("areaPDF");
 
-    if (h30 > 0) {
-        mensaje += "🥚 Huevos 30: " + h30 + "%0A";
-        total += h30 * 120;
-    }
-
-    if (h60 > 0) {
-        mensaje += "🥚 Huevos 60: " + h60 + "%0A";
-        total += h60 * 220;
-    }
-
-    if (miel > 0) {
-        mensaje += "🍯 Miel: " + miel + "%0A";
-        total += miel * 150;
-    }
-
-    if (ceb > 0) {
-        mensaje += "🌿 Cebollín: " + ceb + "%0A";
-        total += ceb * 50;
-    }
-
-    mensaje += "%0A💰 Total estimado: $" + total + " MXN";
-
-    let url = "https://wa.me/+5219982240708?text=" + mensaje;
-
-    window.open(url, "_blank");
+    html2pdf()
+    .set({
+        margin: 10,
+        filename: 'leads_econido.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    })
+    .from(element)
+    .save();
 }
 </script>
 
